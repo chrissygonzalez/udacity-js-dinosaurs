@@ -1,0 +1,23 @@
+h1 {
+  font-family: 'Unica One', sans-serif;
+  font-size: 56px;
+  text-align: center;
+}
+
+img {
+  width: 50%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  min-width: 800px;
+  margin: 0 auto;
+}
+
+.grid div {
+  border: 1px solid gray;
+  /* width: 250px; */
+  min-height: 100px;
+}

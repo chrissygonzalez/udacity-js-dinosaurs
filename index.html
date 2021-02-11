@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Dinographic</title>
     <link
-      href="https://fonts.googleapis.com/css?family=Frijole|Open+Sans|Oswald&display=swap"
+      href="https://fonts.googleapis.com/css?family=Unica+One|Open+Sans|Oswald&display=swap"
       rel="stylesheet"
     />
     <!-- Normalize browser styles -->
@@ -19,6 +19,45 @@
     <script defer src="dinosaurs.js"></script>
   </head>
   <body>
-    <h1>Dinosaurs</h1>
+    <h1>DinoGraphic</h1>
+    <main>
+      <section id="dino-form">
+        <form>
+          <label>Name</label>
+          <input type="text" />
+
+          <p>Height</p>
+          <label>Feet</label>
+          <input type="number" />
+          <label>Inches</label>
+          <input type="number" />
+
+          <p>Weight</p>
+          <label>Pounds</label>
+          <input type="number" />
+
+          <p>Diet</p>
+          <select>
+            <option>Herbivore</option>
+            <option>Carnivore</option>
+            <option>Omnivore</option>
+          </select>
+          <input type="submit" value="Generate graphic" />
+        </form>
+      </section>
+      <section id="dino-graphic">
+        <div class="grid">
+          <div id="one"><img src="images/ankylosaurus.png" /></div>
+          <div id="two"><img src="images/brachiosaurus.png" /></div>
+          <div id="three"><img src="images/elasmosaurus.png" /></div>
+          <div id="four"><img src="images/pigeon.png" /></div>
+          <div id="five"><img src="images/human.png" /></div>
+          <div id="six"><img src="images/pteranodon.png" /></div>
+          <div id="seven"><img src="images/stegosaurus.png" /></div>
+          <div id="eight"><img src="images/triceratops.png" /></div>
+          <div id="nine"><img src="images/tyrannosaurus rex.png" /></div>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
