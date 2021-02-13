@@ -3,6 +3,7 @@ body {
   font-size: 1rem;
   font-weight: 300;
   background-color: #eaeaea;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -24,6 +25,11 @@ img {
 
 form {
   width: 100%;
+}
+
+input,
+select {
+  box-sizing: border-box;
 }
 
 input[type='text'],
@@ -56,9 +62,13 @@ input[type='submit']:hover {
   border: 1px solid #ccc;
   width: 50%;
   background-color: #fff;
+  min-width: 360px;
 }
 
 #dino-graphic {
+}
+
+.invisible {
   display: none;
 }
 
@@ -77,11 +87,11 @@ input[type='submit']:hover {
 }
 
 .width-full {
-  width: 94%;
+  width: 98%;
 }
 
 .width-half {
-  width: 44%;
+  width: 48%;
 }
 
 .width-full-select {
@@ -90,8 +100,4 @@ input[type='submit']:hover {
 
 .mr {
   margin-right: 1rem;
-}
-
-.flex {
-  display: flex;
 }
