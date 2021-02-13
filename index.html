@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Dinographic</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
-      href="https://fonts.googleapis.com/css?family=Unica+One|Open+Sans|Oswald&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Unica+One&display=swap"
       rel="stylesheet"
     />
     <!-- Normalize browser styles -->
@@ -23,21 +24,42 @@
     <main>
       <section id="dino-form">
         <form>
-          <label>Name</label>
-          <input type="text" />
+          <h3>Name</h3>
+          <input
+            name="name"
+            id="name"
+            type="text"
+            placeholder="Your name"
+            class="width-full"
+          />
 
-          <p>Height</p>
-          <label>Feet</label>
-          <input type="number" />
-          <label>Inches</label>
-          <input type="number" />
+          <h3>Height</h3>
+          <input
+            name="feet"
+            id="feet"
+            type="number"
+            placeholder="Feet"
+            class="width-half mr"
+          />
+          <input
+            name="inches"
+            id="inches"
+            type="number"
+            placeholder="Inches"
+            class="width-half"
+          />
 
-          <p>Weight</p>
-          <label>Pounds</label>
-          <input type="number" />
+          <h3>Weight</h3>
+          <input
+            id="pounds"
+            name="pounds"
+            type="number"
+            class="width-full"
+            placeholder="Pounds"
+          />
 
-          <p>Diet</p>
-          <select>
+          <h3>Diet</h3>
+          <select class="width-full-select">
             <option>Herbivore</option>
             <option>Carnivore</option>
             <option>Omnivore</option>
