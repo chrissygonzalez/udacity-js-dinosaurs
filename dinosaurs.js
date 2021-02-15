@@ -100,7 +100,7 @@ const dinoData = {
 class Dinosaur {
   constructor(
     { species, weight, height, diet, where, when, fact, image },
-    { height: humanHeight, weight: humanWeight, diet: humanDiet }
+    { height: humanHeight, pounds: humanWeight, diet: humanDiet }
   ) {
     this.species = species;
     this.weight = weight;
@@ -111,12 +111,19 @@ class Dinosaur {
     this.fact = fact;
     this.image = image;
     this.comparedHeight = this.compareHeight(humanHeight);
+    this.comparedWeight = this.compareWeight(humanWeight);
     this.comparedDiet = this.compareDiet(humanDiet);
   }
 
   displayDinosaur() {
     const div = document.createElement('div');
-    div.innerHTML = `<h3>${this.species}</h3><p>${this.comparedHeight}</p><p>${this.comparedDiet}</p><img src=${this.image} />`;
+    div.innerHTML = `
+    <h3>${this.species}</h3>
+    <p>${this.comparedHeight}</p>
+    <p>${this.comparedWeight}</p>
+    <p>${this.comparedDiet}</p>
+    <img src=${this.image} />
+    `;
     elements.dinoGraphicGrid.appendChild(div);
   }
 
@@ -132,7 +139,17 @@ class Dinosaur {
     }
   }
 
-  compareWeight(humanWeight) {}
+  compareWeight(humanWeight) {
+    const diff = parseInt(this.weight) - parseInt(humanWeight);
+
+    if (diff > 0) {
+      return `${diff} pounds heavier than the human`;
+    } else if (diff < 0) {
+      return `${diff * -1} pounds lighter than the human`;
+    } else {
+      return 'Same weight as the human';
+    }
+  }
 
   compareDiet(humanDiet) {
     const FOOD = {
@@ -140,7 +157,7 @@ class Dinosaur {
       carnivore: 'meat',
       omnivore: 'everything',
     };
-    debugger;
+
     if (this.diet === humanDiet) {
       return `also eats ${FOOD[this.diet]}`;
     } else {
