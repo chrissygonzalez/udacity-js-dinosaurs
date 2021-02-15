@@ -1,6 +1,7 @@
 const dinoSubmit = document.getElementById('dino-submit');
 const dinoForm = document.getElementById('dino-form');
 const dinoGraphic = document.getElementById('dino-graphic');
+const dinoGraphicGrid = document.getElementById('dino-graphic-grid');
 
 const nameField = document.getElementById('name');
 const feetField = document.getElementById('feet');
@@ -8,8 +9,10 @@ const inchesField = document.getElementById('inches');
 const poundsField = document.getElementById('pounds');
 const dietField = document.getElementById('diet');
 
+const humanName = document.getElementById('human-name');
+
 const dinoData = {
-  Dinos: [
+  dinosaurStats: [
     {
       species: 'Triceratops',
       weight: 13000,
@@ -18,6 +21,7 @@ const dinoData = {
       where: 'North America',
       when: 'Late Cretaceous',
       fact: 'First discovered in 1889 by Othniel Charles Marsh',
+      image: 'images/triceratops.png',
     },
     {
       species: 'Tyrannosaurus Rex',
@@ -27,6 +31,7 @@ const dinoData = {
       where: 'North America',
       when: 'Late Cretaceous',
       fact: 'The largest known skull measures in at 5 feet long.',
+      image: 'images/tyrannosaurusrex.png',
     },
     {
       species: 'Ankylosaurus',
@@ -36,6 +41,7 @@ const dinoData = {
       where: 'North America',
       when: 'Late Cretaceous',
       fact: 'Ankylosaurus survived for approximately 135 million years.',
+      image: 'images/ankylosaurus.png',
     },
     {
       species: 'Brachiosaurus',
@@ -45,6 +51,7 @@ const dinoData = {
       where: 'North America',
       when: 'Late Jurassic',
       fact: 'An asteroid was named 9954 Brachiosaurus in 1991.',
+      image: 'images/brachiosaurus.png',
     },
     {
       species: 'Stegosaurus',
@@ -55,6 +62,7 @@ const dinoData = {
       when: 'Late Jurassic to Early Cretaceous',
       fact:
         'The Stegosaurus had between 17 and 22 separate places and flat spines.',
+      image: 'images/stegosaurus.png',
     },
     {
       species: 'Elasmosaurus',
@@ -64,6 +72,7 @@ const dinoData = {
       where: 'North America',
       when: 'Late Cretaceous',
       fact: 'Elasmosaurus was a marine reptile first discovered in Kansas.',
+      image: 'images/elasmosaurus.png',
     },
     {
       species: 'Pteranodon',
@@ -73,6 +82,7 @@ const dinoData = {
       where: 'North America',
       when: 'Late Cretaceous',
       fact: 'Actually a flying reptile, the Pteranodon is not a dinosaur.',
+      image: 'images/pteranodon.png',
     },
     {
       species: 'Pigeon',
@@ -82,12 +92,13 @@ const dinoData = {
       where: 'World Wide',
       when: 'Holocene',
       fact: 'All birds are living dinosaurs.',
+      image: 'images/pigeon.png',
     },
   ],
 };
 
 class Dinosaur {
-  constructor({ species, weight, height, diet, where, when, fact }) {
+  constructor({ species, weight, height, diet, where, when, fact, image }) {
     this.species = species;
     this.weight = weight;
     this.height = height;
@@ -95,6 +106,17 @@ class Dinosaur {
     this.where = where;
     this.when = when;
     this.fact = fact;
+    this.image = image;
+  }
+
+  displayDinosaur() {
+    const div = document.createElement('div');
+    div.innerHTML = `<h3>${this.species}</h3><img src=${this.image} />`;
+    // const h3 = document.createElement('h3');
+    // const img = document.createElement('img')
+    // h3.innerText = this.species;
+    // div.appendChild(h3);
+    dinoGraphicGrid.appendChild(div);
   }
 }
 
@@ -104,8 +126,7 @@ const createDinosaurObjects = (dinosaurs) => {
   });
 };
 
-const dinosaurObjects = createDinosaurObjects(dinoData.Dinos);
-console.log(dinosaurObjects);
+const dinosaurObjects = createDinosaurObjects(dinoData.dinosaurStats);
 
 class Human {
   constructor({ name, feet, inches, pounds, diet }) {
@@ -115,24 +136,36 @@ class Human {
     this.pounds = pounds;
     this.diet = diet;
   }
+
+  displayHuman() {
+    humanName.innerText = this.name;
+  }
 }
 
-const submitForm = (e) => {
-  e.preventDefault();
-  dinoForm.classList.add('invisible');
-  dinoGraphic.classList.remove('invisible');
+let human;
 
-  const formValues = {
+const getFormValues = () => {
+  return {
     name: nameField.value,
     feet: feetField.value,
     inches: inchesField.value,
     pounds: poundsField.value,
     diet: dietField.value,
   };
+};
 
-  return (() => {
-    new Human(formValues);
+const submitForm = (e) => {
+  e.preventDefault();
+
+  human = (function createHuman() {
+    return new Human(getFormValues());
   })();
+
+  human.displayHuman();
+  dinosaurObjects.map((dinosaur) => dinosaur.displayDinosaur());
+
+  dinoForm.classList.add('invisible');
+  dinoGraphic.classList.remove('invisible');
 };
 
 dinoSubmit.addEventListener('click', submitForm);
