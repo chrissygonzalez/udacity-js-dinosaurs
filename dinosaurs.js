@@ -1,15 +1,15 @@
-const dinoSubmit = document.getElementById('dino-submit');
-const dinoForm = document.getElementById('dino-form');
-const dinoGraphic = document.getElementById('dino-graphic');
-const dinoGraphicGrid = document.getElementById('dino-graphic-grid');
-
-const nameField = document.getElementById('name');
-const feetField = document.getElementById('feet');
-const inchesField = document.getElementById('inches');
-const poundsField = document.getElementById('pounds');
-const dietField = document.getElementById('diet');
-
-const humanName = document.getElementById('human-name');
+const elements = {
+  dinoSubmit: document.getElementById('dino-submit'),
+  dinoForm: document.getElementById('dino-form'),
+  dinoGraphic: document.getElementById('dino-graphic'),
+  dinoGraphicGrid: document.getElementById('dino-graphic-grid'),
+  nameField: document.getElementById('name'),
+  feetField: document.getElementById('feet'),
+  inchesField: document.getElementById('inches'),
+  poundsField: document.getElementById('pounds'),
+  dietField: document.getElementById('diet'),
+  humanName: document.getElementById('human-name'),
+};
 
 const dinoData = {
   dinosaurStats: [
@@ -112,21 +112,9 @@ class Dinosaur {
   displayDinosaur() {
     const div = document.createElement('div');
     div.innerHTML = `<h3>${this.species}</h3><img src=${this.image} />`;
-    // const h3 = document.createElement('h3');
-    // const img = document.createElement('img')
-    // h3.innerText = this.species;
-    // div.appendChild(h3);
-    dinoGraphicGrid.appendChild(div);
+    elements.dinoGraphicGrid.appendChild(div);
   }
 }
-
-const createDinosaurObjects = (dinosaurs) => {
-  return dinosaurs.map((dino) => {
-    return new Dinosaur(dino);
-  });
-};
-
-const dinosaurObjects = createDinosaurObjects(dinoData.dinosaurStats);
 
 class Human {
   constructor({ name, feet, inches, pounds, diet }) {
@@ -135,10 +123,14 @@ class Human {
     this.inches = inches;
     this.pounds = pounds;
     this.diet = diet;
+    this.height = this.inches + this.feet * 12;
+    this.image = 'images/human.png';
   }
 
   displayHuman() {
-    humanName.innerText = this.name;
+    const div = document.createElement('div');
+    div.innerHTML = `<h3>${this.name}</h3><img src=${this.image} />`;
+    elements.dinoGraphicGrid.appendChild(div);
   }
 }
 
@@ -146,12 +138,34 @@ let human;
 
 const getFormValues = () => {
   return {
-    name: nameField.value,
-    feet: feetField.value,
-    inches: inchesField.value,
-    pounds: poundsField.value,
-    diet: dietField.value,
+    name: elements.nameField.value,
+    feet: elements.feetField.value,
+    inches: elements.inchesField.value,
+    pounds: elements.poundsField.value,
+    diet: elements.dietField.value,
   };
+};
+
+const createDinosaurs = (dinosaurs) => {
+  return dinosaurs.map((dino) => {
+    return new Dinosaur(dino);
+  });
+};
+
+const shuffleDinosForDisplay = () => {
+  const dinosaurObjects = createDinosaurs(dinoData.dinosaurStats);
+  const shuffledDinosaurs = dinosaurObjects.sort(() => Math.random() - 0.5);
+  return {
+    dinos1: [...shuffledDinosaurs].splice(0, 4),
+    dinos2: [...shuffledDinosaurs].splice(4, 4),
+  };
+};
+
+const createDinoGrid = () => {
+  const dinos = shuffleDinosForDisplay();
+  dinos.dinos1.map((dinosaur) => dinosaur.displayDinosaur());
+  human.displayHuman();
+  dinos.dinos2.map((dinosaur) => dinosaur.displayDinosaur());
 };
 
 const submitForm = (e) => {
@@ -161,11 +175,10 @@ const submitForm = (e) => {
     return new Human(getFormValues());
   })();
 
-  human.displayHuman();
-  dinosaurObjects.map((dinosaur) => dinosaur.displayDinosaur());
+  createDinoGrid();
 
-  dinoForm.classList.add('invisible');
-  dinoGraphic.classList.remove('invisible');
+  elements.dinoForm.classList.add('invisible');
+  elements.dinoGraphic.classList.remove('invisible');
 };
 
-dinoSubmit.addEventListener('click', submitForm);
+elements.dinoSubmit.addEventListener('click', submitForm);
