@@ -98,7 +98,10 @@ const dinoData = {
 };
 
 class Dinosaur {
-  constructor({ species, weight, height, diet, where, when, fact, image }) {
+  constructor(
+    { species, weight, height, diet, where, when, fact, image },
+    humanHeight
+  ) {
     this.species = species;
     this.weight = weight;
     this.height = height;
@@ -107,12 +110,25 @@ class Dinosaur {
     this.when = when;
     this.fact = fact;
     this.image = image;
+    this.comparedHeight = this.compareHeight(humanHeight);
   }
 
   displayDinosaur() {
     const div = document.createElement('div');
-    div.innerHTML = `<h3>${this.species}</h3><img src=${this.image} />`;
+    div.innerHTML = `<h3>${this.species}</h3><p>${this.comparedHeight}</p><img src=${this.image} />`;
     elements.dinoGraphicGrid.appendChild(div);
+  }
+
+  compareHeight(humanHeight) {
+    const diff = parseInt(this.height) - humanHeight;
+
+    if (diff > 0) {
+      return `${diff} inches taller than the human`;
+    } else if (diff < 0) {
+      return `${diff * -1} inches shorter than the human`;
+    } else {
+      return 'Same height as the human';
+    }
   }
 }
 
@@ -123,8 +139,16 @@ class Human {
     this.inches = inches;
     this.pounds = pounds;
     this.diet = diet;
-    this.height = this.inches + this.feet * 12;
+    this.height = this.calculateHeight();
     this.image = 'images/human.png';
+  }
+
+  calculateHeight() {
+    if (this.inches && this.feet) {
+      return parseInt(this.inches) + parseInt(this.feet) * 12;
+    } else {
+      return 0;
+    }
   }
 
   displayHuman() {
@@ -152,20 +176,22 @@ const createDinosaurs = (dinosaurs) => {
   });
 };
 
-const shuffleDinosForDisplay = () => {
-  const dinosaurObjects = createDinosaurs(dinoData.dinosaurStats);
-  const shuffledDinosaurs = dinosaurObjects.sort(() => Math.random() - 0.5);
+const shuffleAndSpliceDinos = (dinos) => {
+  const shuffledDinosaurs = dinos.sort(() => Math.random() - 0.5);
   return {
     dinos1: [...shuffledDinosaurs].splice(0, 4),
     dinos2: [...shuffledDinosaurs].splice(4, 4),
   };
 };
 
-const createDinoGrid = () => {
-  const dinos = shuffleDinosForDisplay();
-  dinos.dinos1.map((dinosaur) => dinosaur.displayDinosaur());
+const createDinoGrid = (dinos, humanHeight) => {
+  const dinosaurs = dinos.map((dino) => {
+    return new Dinosaur(dino, humanHeight);
+  });
+  const shuffled = shuffleAndSpliceDinos(dinosaurs);
+  shuffled.dinos1.map((dinosaur) => dinosaur.displayDinosaur());
   human.displayHuman();
-  dinos.dinos2.map((dinosaur) => dinosaur.displayDinosaur());
+  shuffled.dinos2.map((dinosaur) => dinosaur.displayDinosaur());
 };
 
 const submitForm = (e) => {
@@ -175,7 +201,7 @@ const submitForm = (e) => {
     return new Human(getFormValues());
   })();
 
-  createDinoGrid();
+  createDinoGrid(dinoData.dinosaurStats, human.height);
 
   elements.dinoForm.classList.add('invisible');
   elements.dinoGraphic.classList.remove('invisible');
