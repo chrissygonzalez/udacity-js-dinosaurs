@@ -100,7 +100,7 @@ const dinoData = {
 class Dinosaur {
   constructor(
     { species, weight, height, diet, where, when, fact, image },
-    humanHeight
+    { height: humanHeight, weight: humanWeight, diet: humanDiet }
   ) {
     this.species = species;
     this.weight = weight;
@@ -111,11 +111,12 @@ class Dinosaur {
     this.fact = fact;
     this.image = image;
     this.comparedHeight = this.compareHeight(humanHeight);
+    this.comparedDiet = this.compareDiet(humanDiet);
   }
 
   displayDinosaur() {
     const div = document.createElement('div');
-    div.innerHTML = `<h3>${this.species}</h3><p>${this.comparedHeight}</p><img src=${this.image} />`;
+    div.innerHTML = `<h3>${this.species}</h3><p>${this.comparedHeight}</p><p>${this.comparedDiet}</p><img src=${this.image} />`;
     elements.dinoGraphicGrid.appendChild(div);
   }
 
@@ -128,6 +129,22 @@ class Dinosaur {
       return `${diff * -1} inches shorter than the human`;
     } else {
       return 'Same height as the human';
+    }
+  }
+
+  compareWeight(humanWeight) {}
+
+  compareDiet(humanDiet) {
+    const FOOD = {
+      herbivore: 'plants',
+      carnivore: 'meat',
+      omnivore: 'everything',
+    };
+    debugger;
+    if (this.diet === humanDiet) {
+      return `also eats ${FOOD[this.diet]}`;
+    } else {
+      return `eats ${FOOD[this.diet]}`;
     }
   }
 }
@@ -158,8 +175,6 @@ class Human {
   }
 }
 
-let human;
-
 const getFormValues = () => {
   return {
     name: elements.nameField.value,
@@ -184,9 +199,9 @@ const shuffleAndSpliceDinos = (dinos) => {
   };
 };
 
-const createDinoGrid = (dinos, humanHeight) => {
+const createDinoGraphic = (dinos, human) => {
   const dinosaurs = dinos.map((dino) => {
-    return new Dinosaur(dino, humanHeight);
+    return new Dinosaur(dino, human);
   });
   const shuffled = shuffleAndSpliceDinos(dinosaurs);
   shuffled.dinos1.map((dinosaur) => dinosaur.displayDinosaur());
@@ -197,11 +212,11 @@ const createDinoGrid = (dinos, humanHeight) => {
 const submitForm = (e) => {
   e.preventDefault();
 
-  human = (function createHuman() {
+  const human = (function createHuman() {
     return new Human(getFormValues());
   })();
 
-  createDinoGrid(dinoData.dinosaurStats, human.height);
+  createDinoGraphic(dinoData.dinosaurStats, human);
 
   elements.dinoForm.classList.add('invisible');
   elements.dinoGraphic.classList.remove('invisible');
