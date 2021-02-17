@@ -110,32 +110,38 @@ class Dinosaur {
     this.when = when;
     this.fact = fact;
     this.image = image;
-    this.comparedHeight = this.compareHeight(humanHeight);
-    this.comparedWeight = this.compareWeight(humanWeight);
-    this.comparedDiet = this.compareDiet(humanDiet);
+    this.fact = this.getRandomFact(humanHeight, humanWeight, humanDiet);
   }
 
   displayDinosaur() {
     const div = document.createElement('div');
     div.innerHTML = `
-    <h3>${this.species}</h3>
-    <p>${this.comparedHeight}</p>
-    <p>${this.comparedWeight}</p>
-    <p>${this.comparedDiet}</p>
     <img src=${this.image} />
+    <h3>${this.species}</h3>
+    <p>${this.fact}</p>
     `;
     elements.dinoGraphicGrid.appendChild(div);
+  }
+
+  getRandomFact(humanHeight, humanWeight, humanDiet) {
+    const facts = [
+      this.compareHeight(humanHeight),
+      this.compareWeight(humanWeight),
+      this.compareDiet(humanDiet),
+    ];
+    const randomIndex = Math.floor(Math.random() * facts.length);
+    return facts[randomIndex];
   }
 
   compareHeight(humanHeight) {
     const diff = parseInt(this.height) - humanHeight;
 
     if (diff > 0) {
-      return `${diff} inches taller than the human`;
+      return `${diff} inches taller than you`;
     } else if (diff < 0) {
-      return `${diff * -1} inches shorter than the human`;
+      return `${diff * -1} inches shorter than you`;
     } else {
-      return 'Same height as the human';
+      return 'Same height as you';
     }
   }
 
@@ -143,11 +149,11 @@ class Dinosaur {
     const diff = parseInt(this.weight) - parseInt(humanWeight);
 
     if (diff > 0) {
-      return `${diff} pounds heavier than the human`;
+      return `${diff} pounds heavier than you`;
     } else if (diff < 0) {
-      return `${diff * -1} pounds lighter than the human`;
+      return `${diff * -1} pounds lighter than you`;
     } else {
-      return 'Same weight as the human';
+      return 'Same weight as you';
     }
   }
 
@@ -159,9 +165,9 @@ class Dinosaur {
     };
 
     if (this.diet === humanDiet) {
-      return `also eats ${FOOD[this.diet]}`;
+      return `Also eats ${FOOD[this.diet]}`;
     } else {
-      return `eats ${FOOD[this.diet]}`;
+      return `Eats ${FOOD[this.diet]}`;
     }
   }
 }
@@ -187,7 +193,7 @@ class Human {
 
   displayHuman() {
     const div = document.createElement('div');
-    div.innerHTML = `<h3>${this.name}</h3><img src=${this.image} />`;
+    div.innerHTML = `<img src=${this.image} /><h3>${this.name}</h3>`;
     elements.dinoGraphicGrid.appendChild(div);
   }
 }
