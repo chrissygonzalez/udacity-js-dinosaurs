@@ -124,6 +124,9 @@ class Dinosaur {
   }
 
   getRandomFact(humanHeight, humanWeight, humanDiet) {
+    if (this.species === 'Pigeon') {
+      return 'All birds are Dinosaurs.';
+    }
     const facts = [
       this.compareHeight(humanHeight),
       this.compareWeight(humanWeight),
@@ -137,11 +140,11 @@ class Dinosaur {
     const diff = parseInt(this.height) - humanHeight;
 
     if (diff > 0) {
-      return `${diff} inches taller than you`;
+      return `${diff} inches taller than you.`;
     } else if (diff < 0) {
-      return `${diff * -1} inches shorter than you`;
+      return `${diff * -1} inches shorter than you.`;
     } else {
-      return 'Same height as you';
+      return 'Same height as you.';
     }
   }
 
@@ -149,11 +152,11 @@ class Dinosaur {
     const diff = parseInt(this.weight) - parseInt(humanWeight);
 
     if (diff > 0) {
-      return `${diff} pounds heavier than you`;
+      return `${diff} pounds heavier than you.`;
     } else if (diff < 0) {
-      return `${diff * -1} pounds lighter than you`;
+      return `${diff * -1} pounds lighter than you.`;
     } else {
-      return 'Same weight as you';
+      return 'Same weight as you.';
     }
   }
 
@@ -165,9 +168,9 @@ class Dinosaur {
     };
 
     if (this.diet === humanDiet) {
-      return `Also eats ${FOOD[this.diet]}`;
+      return `Also eats ${FOOD[this.diet]}.`;
     } else {
-      return `Eats ${FOOD[this.diet]}`;
+      return `Eats ${FOOD[this.diet]}.`;
     }
   }
 }
