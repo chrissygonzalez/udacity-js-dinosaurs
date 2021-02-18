@@ -115,6 +115,7 @@ class Dinosaur {
 
   displayDinosaur() {
     const div = document.createElement('div');
+    div.classList.add('dino-card');
     div.innerHTML = `
     <img src=${this.image} />
     <h3>${this.species}</h3>
@@ -167,11 +168,9 @@ class Dinosaur {
       omnivore: 'everything',
     };
 
-    if (this.diet === humanDiet) {
-      return `Also eats ${FOOD[this.diet]}.`;
-    } else {
-      return `Eats ${FOOD[this.diet]}.`;
-    }
+    return this.diet === humanDiet
+      ? `Also eats ${FOOD[this.diet]}.`
+      : `Eats ${FOOD[this.diet]}.`;
   }
 }
 
@@ -238,11 +237,12 @@ const createDinoGraphic = (dinos, human) => {
 const submitForm = (e) => {
   e.preventDefault();
 
-  const human = (function createHuman() {
-    return new Human(getFormValues());
-  })();
-
-  createDinoGraphic(dinoData.dinosaurStats, human);
+  createDinoGraphic(
+    dinoData.dinosaurStats,
+    (() => {
+      return new Human(getFormValues());
+    })()
+  );
 
   elements.dinoForm.classList.add('invisible');
   elements.dinoGraphic.classList.remove('invisible');
