@@ -97,25 +97,31 @@ const dinoData = {
   ],
 };
 
+/**
+ * @description Dinosaur class
+ * @constructor
+ * @param {object} dino - contains species, diet, image (strings), weight and height (numbers)
+ * @param {object} human - contains height (number), weight and diet (strings)
+ */
 class Dinosaur {
   constructor(
-    { species, weight, height, diet, where, when, fact, image },
+    { species, weight, height, diet, image },
     { height: humanHeight, pounds: humanWeight, diet: humanDiet }
   ) {
     this.species = species;
     this.weight = weight;
     this.height = height;
     this.diet = diet;
-    this.where = where;
-    this.when = when;
-    this.fact = fact;
     this.image = image;
     this.fact = this.getRandomFact(humanHeight, humanWeight, humanDiet);
   }
 
+  /**
+   * @description Creates and appends dinosaur elements to DOM
+   */
   displayDinosaur() {
     const div = document.createElement('div');
-    div.classList.add('dino-card');
+    div.classList.add('dino-card', 'card');
     div.innerHTML = `
     <img src=${this.image} />
     <h3>${this.species}</h3>
@@ -124,6 +130,12 @@ class Dinosaur {
     elements.dinoGraphicGrid.appendChild(div);
   }
 
+  /**
+   * @description Randomly selects fact for Dinosaur
+   * @param {number} humanHeight
+   * @param {string} humanWeight
+   * @param {string} humanDiet
+   */
   getRandomFact(humanHeight, humanWeight, humanDiet) {
     if (this.species === 'Pigeon') {
       return 'All birds are Dinosaurs.';
@@ -137,6 +149,10 @@ class Dinosaur {
     return facts[randomIndex];
   }
 
+  /**
+   * @description Returns fact based on difference between human and dinosaur height.
+   * @param {number} humanHeight
+   */
   compareHeight(humanHeight) {
     const diff = parseInt(this.height) - humanHeight;
 
@@ -149,6 +165,10 @@ class Dinosaur {
     }
   }
 
+  /**
+   * @description Returns fact based on difference between human and dinosaur weight.
+   * @param {string} humanWeight
+   */
   compareWeight(humanWeight) {
     const diff = parseInt(this.weight) - parseInt(humanWeight);
 
@@ -161,6 +181,10 @@ class Dinosaur {
     }
   }
 
+  /**
+   * @description Returns fact based on difference between human and dinosaur diet.
+   * @param {string} humanDiet
+   */
   compareDiet(humanDiet) {
     const FOOD = {
       herbivore: 'plants',
@@ -174,6 +198,11 @@ class Dinosaur {
   }
 }
 
+/**
+ * @description Human class
+ * @constructor
+ * @param {object} formValues - contains name, feet, inches, pounds (strings)
+ */
 class Human {
   constructor({ name, feet, inches, pounds, diet }) {
     this.name = name;
@@ -185,6 +214,9 @@ class Human {
     this.image = 'images/human.png';
   }
 
+  /**
+   * @description Converts feet and inches to numbers, returns height
+   */
   calculateHeight() {
     if (this.inches && this.feet) {
       return parseInt(this.inches) + parseInt(this.feet) * 12;
@@ -193,13 +225,20 @@ class Human {
     }
   }
 
+  /**
+   * @description Creates and appends human elements to DOM
+   */
   displayHuman() {
     const div = document.createElement('div');
+    div.classList.add('human-card', 'card');
     div.innerHTML = `<img src=${this.image} /><h3>${this.name}</h3>`;
     elements.dinoGraphicGrid.appendChild(div);
   }
 }
 
+/**
+ * @description Returns values entered in the form
+ */
 const getFormValues = () => {
   return {
     name: elements.nameField.value,
@@ -210,12 +249,10 @@ const getFormValues = () => {
   };
 };
 
-const createDinosaurs = (dinosaurs) => {
-  return dinosaurs.map((dino) => {
-    return new Dinosaur(dino);
-  });
-};
-
+/**
+ * @description Sorts array randomly, splits into two halves, returns halves in an object
+ * @param {array} dinos - array of Dinosaur objects
+ */
 const shuffleAndSpliceDinos = (dinos) => {
   const shuffledDinosaurs = dinos.sort(() => Math.random() - 0.5);
   return {
@@ -224,6 +261,11 @@ const shuffleAndSpliceDinos = (dinos) => {
   };
 };
 
+/**
+ * @description Makes dinosaurs, displays first half, then human, then second half
+ * @param {array} dinos - array of raw dinosaur data objects
+ * @param {object} human - a Human object
+ */
 const createDinoGraphic = (dinos, human) => {
   const dinosaurs = dinos.map((dino) => {
     return new Dinosaur(dino, human);
@@ -234,6 +276,10 @@ const createDinoGraphic = (dinos, human) => {
   shuffled.dinos2.map((dinosaur) => dinosaur.displayDinosaur());
 };
 
+/**
+ * @description Creates graphic with form data, makes graphic visible / form invisible
+ * @param {event} e - click event
+ */
 const submitForm = (e) => {
   e.preventDefault();
 
